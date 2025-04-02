@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RAF Mediation Course Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+</head>
+<body class="bg-gray-100 p-10 text-gray-800">
+
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-xl">
+    <h2 class="text-3xl font-bold text-blue-700 text-center mb-6">RAF Mediation Training Registration</h2>
+
+    <form id="registrationForm" class="space-y-5">
+      <input type="text" id="fullName" placeholder="Full Name" class="w-full p-3 border rounded" required>
+      <input type="email" id="email" placeholder="Email Address" class="w-full p-3 border rounded" required>
+      <input type="tel" id="phone" placeholder="Phone Number" class="w-full p-3 border rounded" required>
+      <input type="text" id="idNumber" placeholder="ID / Passport Number" class="w-full p-3 border rounded" required>
+      <input type="text" id="mediationNumber" placeholder="Mediation Accreditation Number" class="w-full p-3 border rounded" required>
+
+      <button type="button" id="sendBtn" class="w-full bg-blue-700 text-white p-3 rounded hover:bg-blue-800">
+        Submit Registration
+      </button>
+    </form>
+
+    <div id="successMessage" class="hidden mt-4 text-green-700 bg-green-100 p-4 rounded text-center">
+      ✅ Your registration has been submitted successfully!
+    </div>
+    <div id="errorMessage" class="hidden mt-4 text-red-700 bg-red-100 p-4 rounded text-center">
+      ❌ There was a problem sending your registration.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      emailjs.init("wkqlL1vE45ycSB8GG"); // ✅ Your EmailJS public key
+
+      document.getElementById("sendBtn").addEventListener("click", function () {
+        const templateParams = {
+          fullName: document.getElementById("fullName").value,
+          email: document.getElementById("email").value,
+          phone: document.getElementById("phone").value,
+          idNumber: document.getElementById("idNumber").value,
+          mediationNumber: document.getElementById("mediationNumber").value
+        };
+
+        emailjs.send("service_7i3sy17", "template_p75uj5o", templateParams)
+          .then(() => {
+            document.getElementById("successMessage").classList.remove("hidden");
+            document.getElementById("errorMessage").classList.add("hidden");
+            document.getElementById("registrationForm").reset();
+          })
+          .catch(error => {
+            console.error("EmailJS error:", error);
+            document.getElementById("errorMessage").classList.remove("hidden");
+            document.getElementById("successMessage").classList.add("hidden");
+          });
+      });
+    });
+  </script>
+
+</body>
+</html>
